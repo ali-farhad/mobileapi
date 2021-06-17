@@ -24,10 +24,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     Route::get("profile", [PatientController::class, "profile"]);
     Route::get("logout", [PatientController::class, "logout"]);
-    
+
     Route::post("add-hospital", [HospitalController::class, "addHospital"]);
-
-
+    Route::get("list-hospitals", [HospitalController::class, "listHospital"]);
+    Route::get("single-hospital/{id}", [HospitalController::class, "singleHospital"]);
 });
 
 
