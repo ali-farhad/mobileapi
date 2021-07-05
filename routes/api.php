@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\HospitalController;
+use App\Http\Controllers\Api\DoctorController;
 
 
 /*
@@ -34,3 +35,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+Route::post("register-doctor", [DoctorController::class, "addDoctor"]);
+Route::get("list-doctors", [DoctorController::class, "listDoctors"]);
+Route::get("single-doctor/{id}", [DoctorController::class, "singleDoctor"]);
+
