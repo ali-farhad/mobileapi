@@ -21,6 +21,7 @@ class CreateDoctorsTable extends Migration
             $table->string('password', 70);
             $table->enum('speacility', ['Allergy and immunology', 'Urology', 'Ophthalmology', 'Obstetrics and gynecology', 'Anesthesiology', 'Dermatology', 'Diagnostic radiology', 'Family medicine', 'Pathology', 'Pediatrics']);
             $table->integer('years_of_experience');
+            $table->integer("is_logged_in")->default(0);
             $table->timestamps();
         });
     }

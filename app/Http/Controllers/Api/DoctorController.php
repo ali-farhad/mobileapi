@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 
 
+
 class DoctorController extends Controller
 {
     //ADD NEW Doctor
@@ -85,6 +86,107 @@ class DoctorController extends Controller
              ], 404);
          }
      }
+
+
+
+     //login Doctor
+
+     public function loginDoctor(Request $request) {
+
+
+         //validate
+         $request->validate([
+            "email" => "required",
+            "password" => "required"
+        ]);
+
+         //check Doctor
+         $doctor = Doctor::where("email", "=", $request->email)->first();
+         
+         if (isset($doctor->id)) {
+
+            //check password
+            if (Hash::check($request->password, $doctor->password)) {
+
+                //update login status
+                $doctor->is_logged_in = 1;
+
+                //create a token
+                $token = $doctor->createToken("auth_token")->plainTextToken;
+
+                $doctor->save();
+
+                //send response
+                return response()->json([
+                    "status" => 1,
+                    "message" => "Doctor logged in successfully",
+                    "access_token" => $token
+                ]);
+            } else {
+
+                //incorrect password
+                return response()->json([
+                    "status" => 0,
+                    "message" => "Password didn't match"
+                ], 404);
+            }
+        } else {
+
+            return response()->json([
+                "status" => 0,
+                "message" => "This Email/User for Doctor does not exist"
+            ], 404);
+        }
+
+
+     }
+
+
+     public function isDoctorLoggedIn($id) {
+
+        //find user
+     
+
+
+        if (isset(Doctor::find($id)->id)) {
+
+         $user = Doctor::find($id)->first();
+
+          //check status
+        $status = $user->is_logged_in;
+
+        if($status) {
+
+            return response()->json([
+                "status" => 1,
+                "message" => "Doctor is logged in",
+                "isLoggedIn" => true
+            ]);
+        }
+
+        else {
+
+            return response()->json([
+                "status" => 0,
+                "message" => "Doctor is logged out",
+                "isLoggedIn" => false
+            ]);
+        } 
+            
+
+
+        }  else {
+
+            return response()->json([
+                "status" => 0,
+                "message" => "This id for Doctor does not exist"
+            ], 404);
+
+        }
+
+       
+    }
+
 
 
 }

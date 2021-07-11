@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Patient;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Doctor;
 
+use Illuminate\Support\Facades\Hash;
+use PhpParser\Comment\Doc;
 
 class PatientController extends Controller
 {
@@ -57,7 +59,10 @@ class PatientController extends Controller
             if (Hash::check($request->password, $patient->password)) {
 
                 //create a token
+                $patient->is_logged_in = 1;
                 $token = $patient->createToken("auth_token")->plainTextToken;
+
+                $patient->save();
 
                 //send response
                 return response()->json([
@@ -95,11 +100,71 @@ class PatientController extends Controller
     //LOGOUT API
     public function logout()
     {
+
+
+        $userId = auth()->user()->id;
+
+        $patient = Patient::find($userId)->first();
+        $doctor = Doctor::find($userId)->first();
+
+        $patient->is_logged_in = 0;
+
+
+
+
+        $doctor->is_logged_in = 0;
+
+
+        $patient->save();
+        $doctor->save();
+
+
+
         auth()->user()->tokens()->delete();
 
         return response()->json([
             "status" => 1,
             "message" => "User logged out successfully"
         ]);
+    }
+
+
+    public function isUserLoggedIn($id)
+    {
+
+        //find user
+
+
+        if (isset(Patient::find($id)->id)) {
+
+            $user = Patient::find($id)->first();
+
+            //check status
+            $status = $user->is_logged_in;
+
+            if ($status) {
+
+                return response()->json([
+                    "status" => 1,
+                    "message" => "user is logged in",
+                    "isLoggedIn" => true
+                ]);
+            } else {
+
+                return response()->json([
+                    "status" => 0,
+                    "message" => "user is logged out",
+                    "isLoggedIn" => false
+                ]);
+            }
+        }
+        else {
+
+            return response()->json([
+                "status" => 0,
+                "message" => "This id for User does not exist"
+            ], 404);
+
+        }
     }
 }

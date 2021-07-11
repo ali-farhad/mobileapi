@@ -19,6 +19,7 @@ class CreatePatientsTable extends Migration
             $table->string('email', 50)->unique();
             $table->string('password', 70);
             $table->boolean('isAdmin')->default(0);
+            $table->boolean('is_logged_in')->default(0);
             $table->timestamps();
         });
     }
