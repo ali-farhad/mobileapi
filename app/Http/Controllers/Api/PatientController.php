@@ -168,5 +168,20 @@ class PatientController extends Controller
         }
     }
 
-  
+    //get doctors appointed to patient by id
+    public function doctorsAppointed() {
+        
+        $patientId = auth()->user()->id;
+
+        $patient = Patient::find($patientId);
+        $doctors = $patient->doctors()->get();
+
+          //send response
+          return response()->json([
+            "status" => 1,
+             "message" => "Doctors appointed with this patient",
+             "data" => $doctors
+          ]);
+
+    }
 }

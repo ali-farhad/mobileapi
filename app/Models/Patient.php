@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Doctor;
+
 
 
 class Patient extends Model
@@ -19,4 +21,16 @@ class Patient extends Model
         "email",
         "password",
     ];
+
+    protected $hidden = [
+        "password",
+        "isAdmin",
+        "pivot",
+        "is_logged_in"
+    ];
+
+    public function doctors() {
+        return $this->belongsToMany(Doctor::class)->withTimestamps();;
+    }
+
 }

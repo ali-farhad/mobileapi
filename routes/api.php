@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\HospitalController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\MedicalformController;
+use App\Http\Controllers\Api\DoctorpatientController;
 
 
 /*
@@ -29,6 +30,8 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::get("profile", [PatientController::class, "profile"]);
     Route::get("logout", [PatientController::class, "logout"]);
 
+
+
     Route::post("add-hospital", [HospitalController::class, "addHospital"]);
     Route::get("list-hospitals", [HospitalController::class, "listHospital"]);
     Route::get("single-hospital/{id}", [HospitalController::class, "singleHospital"]);
@@ -38,6 +41,13 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::post("add-medicalform", [MedicalformController::class, "store"]);
     Route::post("update-medicalform/{id}", [MedicalformController::class, "update"]);
     Route::get("get-medicalform", [MedicalformController::class, "index"]);
+
+    //Appointement
+
+    Route::get("appoint-doctor/{id}", [DoctorpatientController::class, "appointDoctor"]);
+    Route::get("list-patient-doctors", [PatientController::class, "doctorsAppointed"]);
+    Route::get("unappoint-doctor/{drid}/{ptid}", [DoctorpatientController::class, "unappointDoctor"]);
+
 
 });
 
@@ -54,5 +64,9 @@ Route::get("list-doctors", [DoctorController::class, "listDoctors"]);
 Route::get("single-doctor/{id}", [DoctorController::class, "singleDoctor"]);
 Route::get("isDoctorLoggedIn/{id}", [DoctorController::class, "isDoctorLoggedIn"]);
 Route::post("find-doctors", [DoctorController::class, "findDoctors"]);
+
+
+Route::get("list-doctor-patients/{id}", [DoctorpatientController::class, "getDoctorPatients"]);
+
 
 
