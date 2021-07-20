@@ -188,5 +188,46 @@ class DoctorController extends Controller
     }
 
 
+    //search doctors
+    public function findDoctors(Request $request) {
+
+        if(isset($request->speacility)) {
+            $doctors = Doctor::where("speacility", "=", $request->speacility)->get();
+
+            return response()->json([
+                "status" => 1,
+                "message" => "Doctors by speacility",
+                "data" => $doctors
+            ]);
+        }
+
+        if(isset($request->email)) {
+            $doctors = Doctor::where("email", "=", $request->email)->get();
+
+            return response()->json([
+                "status" => 1,
+                "message" => "Doctors by email",
+                "data" => $doctors
+            ]);
+        }
+
+        if(isset($request->name)) {
+            #find LIKE doctors
+            $doctors = Doctor::where("fullname", "LIKE", "%".$request->name."%")->get();
+          
+            return response()->json([
+                "status" => 1,
+                "message" => "Doctors by fullname",
+                "data" => $doctors
+            ]);
+        }
+        
+
+       
+
+
+    }
+
+
 
 }

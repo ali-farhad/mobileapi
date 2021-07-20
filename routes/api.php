@@ -53,5 +53,6 @@ Route::post("login-doctor", [DoctorController::class, "loginDoctor"]);
 Route::get("list-doctors", [DoctorController::class, "listDoctors"]);
 Route::get("single-doctor/{id}", [DoctorController::class, "singleDoctor"]);
 Route::get("isDoctorLoggedIn/{id}", [DoctorController::class, "isDoctorLoggedIn"]);
+Route::post("find-doctors", [DoctorController::class, "findDoctors"]);
 
 
