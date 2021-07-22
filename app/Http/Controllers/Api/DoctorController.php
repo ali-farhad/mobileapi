@@ -25,7 +25,10 @@ class DoctorController extends Controller
             "years_of_experience" => "required|integer"
         ]);
 
-         //create Doctor
+
+        try {
+
+            //create Doctor
          $doctor = new Doctor();
 
          $doctor->fullname = $request->fullname;
@@ -37,6 +40,15 @@ class DoctorController extends Controller
 
  
          $doctor->save();
+         
+        } catch (\Exception $e) {
+            //send response
+            return response()->json([
+                "status" => 0,
+                "message" => "This Email Address is already taken!"
+            ], 405);
+        }
+         
 
           //send response
         return response()->json([
