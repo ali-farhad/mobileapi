@@ -18,7 +18,7 @@ class DoctorController extends Controller
           //validate
           $request->validate([
             "fullname" => "required",
-            "email" => "required|email|unique:patients",
+            "email" => "required|email|unique:doctors",
             "phone" => "required|numeric",
             "password" => "required|confirmed",
             "speacility" => "required|in:Allergy and immunology,Urology,Ophthalmology,Obstetrics and gynecology,Anesthesiology,Dermatology,Diagnostic radiology,Family medicine,Pathology,Pediatrics",
@@ -26,7 +26,7 @@ class DoctorController extends Controller
         ]);
 
 
-        try {
+     
 
             //create Doctor
          $doctor = new Doctor();
@@ -41,13 +41,7 @@ class DoctorController extends Controller
  
          $doctor->save();
          
-        } catch (\Exception $e) {
-            //send response
-            return response()->json([
-                "status" => 0,
-                "message" => "This Email Address is already taken!"
-            ], 405);
-        }
+     
          
 
           //send response

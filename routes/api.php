@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\HospitalController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\MedicalformController;
 use App\Http\Controllers\Api\DoctorpatientController;
+use App\Http\Controllers\Api\FaqquestionController;
+use App\Http\Controllers\Api\FaqanswerController;
 
 
 /*
@@ -67,6 +69,20 @@ Route::post("find-doctors", [DoctorController::class, "findDoctors"]);
 
 
 Route::get("list-doctor-patients/{id}", [DoctorpatientController::class, "getDoctorPatients"]);
+
+
+//FAQ 
+Route::post("add-question", [FaqquestionController::class, "add"]);
+Route::get("list-questions", [FaqquestionController::class, "index"]);
+Route::get("delete-question/{id}", [FaqquestionController::class, "delete"]);
+Route::post("add-answer", [FaqanswerController::class, "add"]);
+Route::get("list-answers", [FaqanswerController::class, "index"]);
+
+
+Route::get("get-answer/{id}", [FaqquestionController::class, "getAnswer"]);
+
+
+
 
 
 
