@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Doctor;
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Http;
+
+
 
 
 
@@ -233,6 +236,22 @@ class DoctorController extends Controller
 
 
     }
+
+
+    // public function test() {
+    //     $res = Http::asForm()->post('http://text-processing.com/api/sentiment/', [
+    //         'text' => 'I am happy'
+          
+    //     ]);
+
+    //     return response()->json([
+    //         "status" => 1,
+    //         "message" => "feedback",
+    //         "data" => $res
+    //     ]);
+
+
+    // }
 
 
 

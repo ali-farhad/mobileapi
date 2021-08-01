@@ -46,7 +46,7 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     //Appointement
 
-    Route::get("appoint-doctor/{id}", [DoctorpatientController::class, "appointDoctor"]);
+    Route::post("appoint-doctor", [DoctorpatientController::class, "appointDoctor"]);
     Route::get("list-patient-doctors", [PatientController::class, "doctorsAppointed"]);
     Route::get("unappoint-doctor/{drid}/{ptid}", [DoctorpatientController::class, "unappointDoctor"]);
 
@@ -82,6 +82,8 @@ Route::get("list-answers", [FaqanswerController::class, "index"]);
 Route::get("get-answer/{id}", [FaqquestionController::class, "getAnswer"]);
 
 
+
+Route::post("test", [DoctorController::class, "test"]);
 
 
 

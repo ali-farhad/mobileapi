@@ -17,6 +17,7 @@ class CreateDoctorPatientTable extends Migration
             $table->primary(['doctor_id', 'patient_id']);
             $table->unsignedBigInteger('doctor_id');
             $table->unsignedBigInteger('patient_id');
+            $table->dateTime('appointed_at');
             $table->timestamps();
         });
     }

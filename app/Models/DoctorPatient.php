@@ -10,5 +10,5 @@ class DoctorPatient extends Model
     use HasFactory;
 
     protected $table = 'doctor_patient';
-    protected $fillable = ['doctor_id', 'patient_id'];
+    protected $fillable = ['doctor_id', 'patient_id', 'appointed_at'];
 }

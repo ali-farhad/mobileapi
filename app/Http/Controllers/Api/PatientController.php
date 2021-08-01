@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Patient;
@@ -9,6 +10,9 @@ use App\Models\Doctor;
 
 use Illuminate\Support\Facades\Hash;
 use PhpParser\Comment\Doc;
+
+use App\Models\DoctorPatient;
+
 
 class PatientController extends Controller
 {
@@ -168,19 +172,35 @@ class PatientController extends Controller
         }
     }
 
-    //get doctors appointed to patient by id
+    //list patient doctors
     public function doctorsAppointed() {
         
         $patientId = auth()->user()->id;
 
-        $patient = Patient::find($patientId);
-        $doctors = $patient->doctors()->get();
+        $rec =  DoctorPatient::where("patient_id", $patientId)->get();
+
+        $doctors= [];
+           foreach ($rec as $r) {
+               $doctors[] = Doctor::find($r->doctor_id)->fullname;
+           }
+
+    
+        #add docot name to rec  
+        $index = 0;
+        foreach ($rec as $r) {
+            $r->doctor_name = $doctors[$index];
+            $r->patient_name = auth()->user()->fullname;
+            $index++;
+        }
+
+
+        
 
           //send response
           return response()->json([
             "status" => 1,
              "message" => "Doctors appointed with this patient",
-             "data" => $doctors
+             "data" => $rec
           ]);
 
     }
