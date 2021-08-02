@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 
 
 
+use App\Models\Rating;
 
 
 class DoctorController extends Controller
@@ -238,20 +239,46 @@ class DoctorController extends Controller
     }
 
 
-    // public function test() {
-    //     $res = Http::asForm()->post('http://text-processing.com/api/sentiment/', [
-    //         'text' => 'I am happy'
-          
-    //     ]);
+    public function addFeedback(Request $request) {
 
-    //     return response()->json([
-    //         "status" => 1,
-    //         "message" => "feedback",
-    //         "data" => $res
-    //     ]);
+          //validate
+          $request->validate([
+            "comment" => "required",
+            "doctor_id" => "required",
+           
+        ]);
 
+        if (isset(Doctor::find($request->doctor_id)->id)) {
 
-    // }
+            $res = Http::asForm()->post('http://text-processing.com/api/sentiment/', [
+                'text' => $request->comment
+              
+            ]);
+    
+            #add new record for Rating
+            $rating = new Rating();
+            $rating->comment = $request->comment;
+            $rating->doctor_id = $request->doctor_id;
+            $rating->save();
+    
+            return response()->json([
+                "status" => 1,
+                "message" => "feedback added Successfully!",
+                "data" => $res->json()
+            ]);
+
+        } else  {
+
+            return response()->json([
+                "status" => 0,
+                "message" => "This id for Doctor does not exist"
+            ], 404);
+
+        }
+      
+    
+
+    }
 
 
 

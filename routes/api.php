@@ -83,7 +83,7 @@ Route::get("get-answer/{id}", [FaqquestionController::class, "getAnswer"]);
 
 
 
-Route::post("test", [DoctorController::class, "test"]);
+Route::post("add-doctor-feedback", [DoctorController::class, "addFeedback"]);
 
 
 

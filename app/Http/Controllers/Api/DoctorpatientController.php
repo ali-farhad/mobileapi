@@ -71,31 +71,6 @@ class DoctorpatientController extends Controller
 
         if (isset(Doctor::find($id)->id)) {
 
-            // $doctor = Doctor::find($id);
-            // $patients = $doctor->patients()->get();
-            
-            // $app_at = DB::table('doctor_patient')->select('appointed_at')->where('doctor_id', $id)->get();
-           
-            // //merge $app_at with patients
-            // foreach ($patients as $patient) {
-            //     foreach ($app_at as $app) {
-                 
-            //             $patient->appointed_at = $app->appointed_at;
-
-                     
-            //     }
-
-              
-            // }
-        
-
-            // return response()->json([
-            //     "status" => 1,
-            //     "message" => "Patients appointed with doctor",
-            //     "data" => $patients
-            // ]);
-
-
 
            $rec =  DoctorPatient::where("doctor_id", $id)->get();
            #get pateint_id from $rec

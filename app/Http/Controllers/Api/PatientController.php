@@ -9,7 +9,6 @@ use App\Models\Patient;
 use App\Models\Doctor;
 
 use Illuminate\Support\Facades\Hash;
-use PhpParser\Comment\Doc;
 
 use App\Models\DoctorPatient;
 
