@@ -51,6 +51,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::get("unappoint-doctor/{drid}/{ptid}", [DoctorpatientController::class, "unappointDoctor"]);
 
 
+    Route::post("add-doctor-feedback", [DoctorController::class, "addFeedback"]);
+
+
+
 });
 
 
@@ -83,7 +87,8 @@ Route::get("get-answer/{id}", [FaqquestionController::class, "getAnswer"]);
 
 
 
-Route::post("add-doctor-feedback", [DoctorController::class, "addFeedback"]);
+Route::get("list-feedbacks", [DoctorController::class, "listFeedback"]);
+Route::get("single-feedback/{id}", [DoctorController::class, "singleFeedback"]);
 
 
 

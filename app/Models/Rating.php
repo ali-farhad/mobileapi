@@ -17,6 +17,11 @@ class Rating extends Model
     protected $fillable = [
         "comment",
         "doctor_id",
+        "user_id",
+        "label",
+        "neg",
+        "pos",
+        "neutral"
     ];
 
 }

@@ -17,6 +17,11 @@ class CreateRatingsTable extends Migration
             $table->id();
             $table->longText("comment");
             $table->unsignedBigInteger("doctor_id");
+            $table->unsignedBigInteger("user_id");
+            $table->text("label");
+            $table->decimal('neg', 18, 17);
+            $table->decimal('pos', 18, 17);
+            $table->decimal('neutral', 18, 17);
             $table->timestamps();
         });
     }

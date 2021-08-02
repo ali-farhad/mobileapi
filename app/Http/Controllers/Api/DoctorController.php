@@ -248,23 +248,39 @@ class DoctorController extends Controller
            
         ]);
 
+        $user_id = auth()->user()->id;
+
+
         if (isset(Doctor::find($request->doctor_id)->id)) {
 
             $res = Http::asForm()->post('http://text-processing.com/api/sentiment/', [
                 'text' => $request->comment
               
             ]);
+
+            #get label out of res
+            $label = json_decode($res)->label;
+            $neg = json_decode($res)->probability->neg;
+            $pos = json_decode($res)->probability->pos;
+            $neutral = json_decode($res)->probability->neutral;
+            
     
             #add new record for Rating
             $rating = new Rating();
             $rating->comment = $request->comment;
             $rating->doctor_id = $request->doctor_id;
+            $rating->user_id = $user_id;
+            $rating->label= $label;
+            $rating->neg= $neg;
+            $rating->pos= $pos;
+            $rating->neutral= $neutral;
             $rating->save();
     
             return response()->json([
                 "status" => 1,
                 "message" => "feedback added Successfully!",
                 "data" => $res->json()
+            
             ]);
 
         } else  {
@@ -279,6 +295,43 @@ class DoctorController extends Controller
     
 
     }
+
+    public function listFeedback() {
+        
+        #get all Rating
+        $ratings = Rating::all();
+
+        return response()->json([
+            "status" => 1,
+            "data" => $ratings
+        ]);
+
+
+    }
+
+    public function singleFeedback($id) {
+        #get rating by doctor id
+
+        if (isset(Doctor::find($id)->id)) {
+
+            $rating = Rating::where("doctor_id", "=", $id)->get();
+
+            return response()->json([
+                "status" => 1,
+                "data" => $rating
+            ]);
+
+        } else {
+
+            return response()->json([
+                "status" => 0,
+                "message" => "This id for Doctor does not exist"
+            ], 404);
+
+        }
+
+        }
+      
 
 
 
