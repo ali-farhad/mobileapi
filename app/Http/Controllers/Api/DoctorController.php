@@ -244,6 +244,7 @@ class DoctorController extends Controller
           //validate
           $request->validate([
             "comment" => "required",
+            "stars" => "required|numeric",
             "doctor_id" => "required",
            
         ]);
@@ -268,6 +269,7 @@ class DoctorController extends Controller
             #add new record for Rating
             $rating = new Rating();
             $rating->comment = $request->comment;
+            $rating->stars = $request->stars;
             $rating->doctor_id = $request->doctor_id;
             $rating->user_id = $user_id;
             $rating->label= $label;

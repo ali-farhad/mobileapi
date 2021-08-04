@@ -16,6 +16,7 @@ class CreateRatingsTable extends Migration
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             $table->longText("comment");
+            $table->unsignedBigInteger("stars");
             $table->unsignedBigInteger("doctor_id");
             $table->unsignedBigInteger("user_id");
             $table->text("label");
