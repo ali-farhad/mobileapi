@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Doctor;
 use App\Models\DoctorPatient;
+use App\Models\DoctorTiming;
 use App\Models\Patient;
 
 class DoctorpatientController extends Controller
@@ -31,7 +32,25 @@ class DoctorpatientController extends Controller
             $doctor_id = Doctor::find($request->doctor_id)->id;
             $user = auth()->user()->id;
 
-            try {
+            #find timeslot from doctor_timings
+            $d = DoctorTiming::where('doctor_id', $doctor_id)->get();
+            $timeslot = [];
+            foreach ($d as $time) {
+                $timeslot[] = $time->timeslot;
+            }
+
+
+           
+            #if appointed_at exists in timeslot
+            if (in_array($request->appointed_at, $timeslot)) {
+
+
+                    try {
+
+                
+                #update d booked_at to 1
+                DB::table('doctor_timings')->where('timeslot', $request->appointed_at)->update(['is_booked' => 1]);
+
                 $appointment = new DoctorPatient();
                 $appointment->doctor_id = $request->doctor_id;
                 $appointment->patient_id = $user;
@@ -44,6 +63,24 @@ class DoctorpatientController extends Controller
                     "message" => "This Doctor is already appointed to this patient"
                 ], 405);
             }
+            
+            } else {
+                return response()->json([
+                    "status" => 0,
+                    "message" => "This timeslot is not available",
+              
+                ]);
+            
+            }
+        
+            //  return response()->json([
+            //     "status" => 1,
+            //     "message" => "Doctor appointed succesfully!",
+            //     "data" => $f
+            // ]);
+        
+
+        
 
             // $appointment = new DoctorPatient();
             //     $appointment->doctor_id = $request->doctor_id;
@@ -51,7 +88,7 @@ class DoctorpatientController extends Controller
             //     $appointment->save();
 
 
-            //send response
+            // send response
             return response()->json([
                 "status" => 1,
                 "message" => "Doctor appointed succesfully!"
@@ -125,10 +162,12 @@ class DoctorpatientController extends Controller
             if (($appointment)->exists()) {
 
                 $appointment->delete();
+                DB::table('doctor_timings')->where('doctor_id', $drid)->update(['is_booked' => 0]);
+
 
                 return response()->json([
                     "status" => 1,
-                    "message" => "appointment Deleted Successfully!",
+                    "message" => "appointment Deleted/completed Successfully!",
                 ], 404);
 
         } else {

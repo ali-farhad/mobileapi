@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\HospitalController;
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\DoctorTimingController;
 use App\Http\Controllers\Api\MedicalformController;
 use App\Http\Controllers\Api\DoctorpatientController;
 use App\Http\Controllers\Api\FaqquestionController;
@@ -54,6 +55,8 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::post("add-doctor-feedback", [DoctorController::class, "addFeedback"]);
 
 
+    Route::post("add-time-slot", [DoctorTimingController::class, "addTiming"]);
+
 
 });
 
@@ -90,6 +93,10 @@ Route::get("get-answer/{id}", [FaqquestionController::class, "getAnswer"]);
 Route::get("list-feedbacks", [DoctorController::class, "listFeedback"]);
 Route::get("single-feedback/{id}", [DoctorController::class, "singleFeedback"]);
 
+
+
+Route::get("get-time-slot/{id}", [DoctorTimingController::class, "getTimings"]);
+Route::get("delete-time-slot/{id}", [DoctorTimingController::class, "delTimings"]);
 
 
 
