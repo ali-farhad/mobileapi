@@ -84,10 +84,10 @@ class MedicalformController extends Controller
 
     //get Medical form
 
-    public function index() {
+    public function index($id) {
 
 
-        $userId = auth()->user()->id;
+        $userId = $id;
 
         if (Medicalform::where([
             "patient_id" => $userId

@@ -81,6 +81,15 @@ class DoctorController extends Controller
             
             $details = Doctor::find($id);
 
+            # fetch star value form Rating
+            $rating = Rating::where("doctor_id", $id)->first();
+            $stars = $rating->stars;
+
+            # add stars into details
+            $details->stars = $stars;
+
+
+
 
             return response()->json([
                 "status" => 1,
