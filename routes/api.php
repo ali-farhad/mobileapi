@@ -42,6 +42,7 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
 
     //medical form
     Route::post("add-medicalform", [MedicalformController::class, "store"]);
+    Route::post("add-diseases", [MedicalformController::class, "addDisease"]);
     Route::post("update-medicalform/{id}", [MedicalformController::class, "update"]);
 
     //Appointement
@@ -99,4 +100,8 @@ Route::get("delete-time-slot/{id}", [DoctorTimingController::class, "delTimings"
 
 
 Route::get("get-medicalform/{id}", [MedicalformController::class, "index"]);
+Route::get("get-diseases/{id}", [MedicalformController::class, "getDiseases"]);
+
+
+
 
