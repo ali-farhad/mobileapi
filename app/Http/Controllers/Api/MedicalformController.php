@@ -173,28 +173,39 @@ class MedicalformController extends Controller
         ]);
     }
 
-    function getDiseases($id) {
+    function getDiseases($id)
+    {
 
-        #find the disease key which are true
-        $diseases = Medicalform::where("patient_id", $id)->get();
-       
+        # check if user exists in Medicalform
+        if (Medicalform::where([
+            "patient_id" => $id
+        ])->exists()) {
 
-            
-  
+            #find the disease key which are true
+            $diseases = Medicalform::where("patient_id", $id)->get();
+            $values = ['anemia', 'arthritis', 'disease', 'clotting_disorder', 'ardinal_gland_surgey', 'appendectomy', 'bariatric_surgery', 'bladder_surgery', 'cesarean_section', 'cholecystectomy', 'medications', 'allergies', 'fm_cancer', 'fm_anemia', 'fm_diabetes', 'fm_blood_clots', 'fm_heart_disease', 'fm_stroke', 'fm_high_blood_pressure', 'fm_hepatitis'];
+            $found = [];
+            foreach ($diseases as $disease) {
+                foreach ($values as $value) {
+                    if ($disease->$value == 1) {
+                        $found[] = $value;
+                    }
+                }
+            }
 
-     
-     
-       
-      
+            # get total values in $found
+            $total = count($found);
+            return response()->json([
+                "status" => 1,
+                "data" => $found,
+                "total" => $total
+            ]);
+        } else {
 
-       
-
-        return response()->json([
-            "status" => 1,
-            "data" => $diseases
-        ]);
+            return response()->json([
+                "status" => 0,
+                "message" => "Medical form/record for this user not found."
+            ], 404);
+        }
     }
-       
-        
-    
 }
