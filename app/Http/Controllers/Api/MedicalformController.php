@@ -114,31 +114,41 @@ class MedicalformController extends Controller
     {
         #accept array of values
         $data = $request->all();
+    
+       
+       
 
-        #decode data
-        $data = json_decode($data[0], true);
+
+          return response()->json([
+            "status" => 1,
+             $data
+        ]);
+
+
+        // #decode data
+        // $data = json_decode($data[0], true);
     
         
-        $rec = new Medicalform();
-        $rec->patient_id = auth()->user()->id;
+        // $rec = new Medicalform();
+        // $rec->patient_id = auth()->user()->id;
 
-        # for each item in data
-        foreach ($data as $key => $value) {
+        // # for each item in data
+        // foreach ($data as $key => $value) {
             
-            #for each key in value
-            foreach ($value as $k => $v) {
-                $rec->$v = 1;
-        }
-        }
+        //     #for each key in value
+        //     foreach ($value as $k => $v) {
+        //         $rec->$v = 1;
+        // }
+        // }
 
-        
 
-        $rec->save();
 
-         return response()->json([
-            "status" => 1,
-            "message" => "diseases added successfully!"
-        ]);
+        // $rec->save();
+
+        //  return response()->json([
+        //     "status" => 1,
+        //     "message" => "diseases added successfully!"
+        // ]);
 
 
        
