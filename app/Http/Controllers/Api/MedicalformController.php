@@ -115,62 +115,67 @@ class MedicalformController extends Controller
         #accept array of values
         $data = $request->all();
 
-
-        $values = array_values($data);
-        try {
-
-            $d = $values[0];
-        } catch (\Exception $e) {
-
-            return response()->json([
-                "status" => 0,
-                "error" => $e->getMessage()
-            ]);
-        }
-
-
-        $rec = new Medicalform();
-        $rec->patient_id = auth()->user()->id;
-
-        foreach ($d as $value) {
-
-            $rec->$value = 1;
-        }
-        # try and raise exceptio
-        try {
-            $rec->save();
-        } catch (\Exception $e) {
-
-            # catch e message
-
-
-            if ($e->getCode() == 23000) {
-
-                return response()->json([
-                    "status" => 0,
-                    "message" => "Disease Record for this User already exists!"
-                ]);
-            } elseif ($e->getCode() == '42S22') {
-
-                return response()->json([
-                    "status" => 0,
-                    "message" => "Invalid Key Passed: Please enter correct disease"
-                ]);
-            } else {
-
-                return response()->json([
-                    "status" => 0,
-                    "message" => $e
-                ]);
-            }
-        }
-
-
-
         return response()->json([
-            "status" => 1,
-            "message" => "diseases added successfully!"
+            "status" => 0,
+            "data" => $data
         ]);
+
+
+        // $values = array_values($data);
+        // try {
+
+        //     $d = $values[0];
+        // } catch (\Exception $e) {
+
+        //     return response()->json([
+        //         "status" => 0,
+        //         "error" => $e->getMessage()
+        //     ]);
+        // }
+
+
+        // $rec = new Medicalform();
+        // $rec->patient_id = auth()->user()->id;
+
+        // foreach ($d as $value) {
+
+        //     $rec->$value = 1;
+        // }
+        // # try and raise exceptio
+        // try {
+        //     $rec->save();
+        // } catch (\Exception $e) {
+
+        //     # catch e message
+
+
+        //     if ($e->getCode() == 23000) {
+
+        //         return response()->json([
+        //             "status" => 0,
+        //             "message" => "Disease Record for this User already exists!"
+        //         ]);
+        //     } elseif ($e->getCode() == '42S22') {
+
+        //         return response()->json([
+        //             "status" => 0,
+        //             "message" => "Invalid Key Passed: Please enter correct disease"
+        //         ]);
+        //     } else {
+
+        //         return response()->json([
+        //             "status" => 0,
+        //             "message" => $e
+        //         ]);
+        //     }
+        // }
+
+
+
+        // return response()->json([
+        //     "status" => 1,
+        //     "message" => "diseases added successfully!"
+        // ]);
     }
 
     function getDiseases($id)
