@@ -114,15 +114,13 @@ class MedicalformController extends Controller
     {
         #accept array of values
         $data = $request->all();
-
-        
+        $d = $data['diseases'];
 
        
 
-
           return response()->json([
             "status" => 1,
-            "data" => $data
+            "data" => $d
         ]);
 
 
