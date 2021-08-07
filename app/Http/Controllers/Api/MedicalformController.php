@@ -113,16 +113,25 @@ class MedicalformController extends Controller
     function addDisease(Request $request)
     {
         #accept array of values
-        $data = $request->all();
+        $data =  $request->getContent();
 
-        # get diseases from data
-        $diseases = $data['diseases'];
+        $data = json_decode($data);
+
+        # convert data into array
+        $data = json_decode(json_encode($data), true);
+        $data = $data['diseases'];
+
+          
+       
+
+        // # get diseases from data
+        // $diseases = $data['diseases'];
         
         $rec = new Medicalform();
         $rec->patient_id = auth()->user()->id;
 
         # for every key in diseases 
-        foreach ($diseases as $key => $value) {
+        foreach ($data as $key => $value) {
             # get key and store in rec
             $rec->$value = 1;
 
