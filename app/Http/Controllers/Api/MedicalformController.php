@@ -33,8 +33,8 @@ class MedicalformController extends Controller
         $data = $request->all();
 
         $form = Medicalform::create($data);
-
         $form->save();
+    
 
         //send response
         return response()->json([
@@ -114,41 +114,49 @@ class MedicalformController extends Controller
     {
         #accept array of values
         $data = $request->all();
-        $d = $data['diseases'];
 
-       
+        # get diseases from data
+        $diseases = $data['diseases'];
+        
+        $rec = new Medicalform();
+        $rec->patient_id = auth()->user()->id;
+
+        # for every key in diseases 
+        foreach ($diseases as $key => $value) {
+            # get key and store in rec
+            $rec->$value = 1;
+
+        }
+        
+        $rec->save();
 
           return response()->json([
             "status" => 1,
-            "data" => $d
+            "message" => "diseases added successfully!",
+            "data" => $rec
         ]);
 
 
-        // #decode data
-        // $data = json_decode($data[0], true);
-    
+
         
-        // $rec = new Medicalform();
-        // $rec->patient_id = auth()->user()->id;
+    
+           
+        
 
-        // # for each item in data
-        // foreach ($data as $key => $value) {
-            
-        //     #for each key in value
-        //     foreach ($value as $k => $v) {
-        //         $rec->$v = 1;
-        // }
-        // }
+
+        
 
 
 
-        // $rec->save();
+      
+       
 
-        //  return response()->json([
-        //     "status" => 1,
-        //     "message" => "diseases added successfully!"
-        // ]);
 
+
+
+     
+
+       
 
        
              
