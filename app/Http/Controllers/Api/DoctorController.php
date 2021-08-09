@@ -83,8 +83,24 @@ class DoctorController extends Controller
 
             # fetch star value form Rating
             $rating = Rating::where("doctor_id", $id)->first();
-            $stars = $rating->stars;
 
+
+            if(isset($rating)){
+            
+                $stars = $rating->stars;
+
+            } else {
+                $stars = 0;
+
+            }
+
+
+              #if $stars exist
+              
+
+            
+
+          
             # add stars into details
             $details->stars = $stars;
 

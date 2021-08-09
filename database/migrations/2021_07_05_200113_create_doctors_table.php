@@ -17,7 +17,7 @@ class CreateDoctorsTable extends Migration
             $table->id();
             $table->string("fullname", 100);
             $table->string('email', 50)->unique();
-            $table->integer('phone');
+            $table->string('phone');
             $table->string('password', 70);
             $table->enum('speacility', ['Allergy and immunology', 'Urology', 'Ophthalmology', 'Obstetrics and gynecology', 'Anesthesiology', 'Dermatology', 'Diagnostic radiology', 'Family medicine', 'Pathology', 'Pediatrics']);
             $table->integer('years_of_experience');
